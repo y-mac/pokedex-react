@@ -1,0 +1,10 @@
+.select-pokemon{
+  width: 200px;
+  min-height: 30px;
+  margin: 0 0 0 0.5em;
+}
+
+.pokemon-txt{
+    width: 200px;
+  min-height: 25px;
+}
