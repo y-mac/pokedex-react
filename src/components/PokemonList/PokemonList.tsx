@@ -2,17 +2,17 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store";
 import { addPokemonList, setPokemonResetLoader } from "../../features/pokemonList/PokemonListActions";
-import axios from "axios";
 import useFetch from "../../hooks/useFetch";
 import PokemonCard from "../PokemonCard";
 import PokemonListHeader from "../PokemonListHeader/PokemonListHeader";
 import { Skeleton } from 'antd';
 import Pagination from "../Pagination/Pagination";
 import { API_CONSTANTS } from "../../utils/apiConstants";
+import { pokemonResult } from "../../models/pokemonResult";
+import { Pokemon } from "../../models/pokemon.model";
 
 
-
-const PokemonList: React.FC = () => {
+const PokemonList: React.FC<Pokemon> = () => {
   const dispatch: AppDispatch = useDispatch();
   const pokemonsInfo = useSelector((state: RootState) => state.pokemons);
 
@@ -20,23 +20,26 @@ const PokemonList: React.FC = () => {
 
     const {getData} = useFetch();
 
-    interface pokemonResult {
-        name: string,
-        url: string
-    }
-
     const getPokemonList = async () => {
       const offset = (currentPage - 1) * itemsPerPage;
-        const data = await getData({
+        const data:any = await getData({
             method:'get',
             url: `${API_CONSTANTS.baseUrl}?limit=${itemsPerPage}&offset=${offset}`
         });
-        const pokemonPromises = data.results.map(async (pokemon: pokemonResult) => {
-            const pokemonResponse = await axios.get(pokemon.url);
-            return pokemonResponse.data;
+
+        const pokemonPromises = data.results.map((pokemon: pokemonResult) => {
+           return getData({
+            method:'get',
+            url: pokemon.url
+          });
         });
-        const pokemonDetails = await Promise.all(pokemonPromises);
-        dispatch(addPokemonList(pokemonDetails));
+        
+        Promise.all(pokemonPromises).then(values => {
+          dispatch(addPokemonList(values));
+        })
+        .catch(error => {
+          console.error(error);
+        });
     }
 
     useEffect(()=>{

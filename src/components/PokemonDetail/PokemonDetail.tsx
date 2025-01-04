@@ -47,10 +47,7 @@ const PokemonDetail = () => {
         };
     }, [])
 
-
-
     return (
-
         <>
             {loading === true && (
                 <div>
