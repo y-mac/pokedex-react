@@ -5,7 +5,7 @@ import { AppDispatch, RootState } from "../../app/store";
 import { setPokemonDetail, setPokemonResetLoader } from "../../features/pokemonList/PokemonListActions";
 import useFetch from "../../hooks/useFetch";
 import { Skeleton } from 'antd';
-import { HomeFilled } from '@ant-design/icons';
+import { FastBackwardOutlined, FastForwardOutlined, HomeFilled, StepBackwardOutlined, StepForwardOutlined } from '@ant-design/icons';
 import './PokemonDetail.css';
 import { API_CONSTANTS } from "../../utils/apiConstants";
 
@@ -63,7 +63,7 @@ const PokemonDetail = () => {
                     </header>
                     <section className="details-wrapper">
                         <aside>
-                            <figure>
+                            <figure className="single__img">
                                 <img src={pokemonDetail?.sprites?.other?.home?.front_default} alt={pokemonDetail?.name} />
                             </figure>
                         </aside>
@@ -122,13 +122,23 @@ const PokemonDetail = () => {
                             </ul>
                             <div>
                                 <button onClick={() => handlePageChange(1)}>
-                                    &lt; &lt;
+                                  <FastBackwardOutlined />
                                 </button>
-                                <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}> &lt; </button>
+                                <button 
+                                 onClick={() => handlePageChange(currentPage - 1)} 
+                                 disabled={currentPage === 1}
+                                > 
+                                  <StepBackwardOutlined /> 
+                                </button>
                                 <span> {currentPage} of {totalPages}</span>
-                                <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}> &gt; </button>
+                                <button 
+                                 onClick={() => handlePageChange(currentPage + 1)} 
+                                 disabled={currentPage === totalPages}
+                                > 
+                                  <StepForwardOutlined /> 
+                                </button>
                                 <button onClick={() => handlePageChange(totalPages)}>
-                                    &gt; &gt;
+                                  <FastForwardOutlined /> 
                                 </button>
                             </div>
                         </aside>

@@ -1,0 +1,8 @@
+.pagination{
+  margin: 1em 0 0;
+}
+
+.number-btn.current{
+    background: blue;
+    color: white;
+}

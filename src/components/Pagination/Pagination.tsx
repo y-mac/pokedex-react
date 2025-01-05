@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store";
 import { setCurrentPage } from "../../features/pokemonList/PokemonListActions";
+import './Pagination.css';
+import { FastBackwardOutlined, FastForwardOutlined, StepBackwardOutlined, StepForwardOutlined } from "@ant-design/icons";
 
 const Pagination: React.FC = () => {
 
@@ -17,20 +19,38 @@ const Pagination: React.FC = () => {
 
     return ( 
       <div className="pagination">
-        <button onClick={() => handleSetPage(1)} disabled={currentPage === 1}>Primera</button>
+        <button onClick={() => handleSetPage(1)} disabled={currentPage === 1}>
+          <FastBackwardOutlined />
+        </button>
         <button 
          onClick={() => handleSetPage(currentPage - 1)} 
          disabled={currentPage === 1}
         >
-          Anterior
+          <StepBackwardOutlined />
         </button>
         
         {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNumber => (
-          <button key={pageNumber} onClick={() => handleSetPage(pageNumber)}>{pageNumber}</button>
+          <button 
+           key={pageNumber} 
+           onClick={() => handleSetPage(pageNumber)}
+           className={pageNumber === currentPage ? 'number-btn current': 'number-btn'}
+          >
+            {pageNumber}
+          </button>
         ))}
         
-        <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>Siguiente</button>
-        <button onClick={() => setCurrentPage(totalPages)} disabled={currentPage === totalPages}>Última</button>
+        <button 
+         onClick={() => handleSetPage(currentPage + 1)} 
+         disabled={currentPage === totalPages}
+        > 
+          <StepForwardOutlined /> 
+        </button>
+        <button 
+         onClick={() => handleSetPage(totalPages)} 
+         disabled={currentPage === totalPages}
+        > 
+          <FastForwardOutlined /> 
+        </button>
       </div>
     );
 }
