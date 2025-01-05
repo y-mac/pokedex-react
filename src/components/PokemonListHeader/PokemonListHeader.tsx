@@ -7,6 +7,7 @@ import './PokemonListHeader.css';
 import { API_CONSTANTS } from "../../utils/apiConstants";
 
 
+
 const PokemonListHeader = () => {
   const dispatch: AppDispatch = useDispatch();
   const pokemonsInfo = useSelector((state: RootState) => state.pokemons);
@@ -19,11 +20,12 @@ const PokemonListHeader = () => {
   useEffect(() => {
     const fetchTypes = async () => {
       try {
-        const response = await getData({
+        const response:any = await getData({
           method:'get',
           url: `${API_CONSTANTS.typeUrl}`
         });
-        setTypes(response.results);
+        console.log({typesResponse: response});
+        setTypes(response?.results);
       } catch (error) {
         console.error(error);
       }

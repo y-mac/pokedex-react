@@ -1,12 +1,13 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { Pokemon } from "../models/pokemon.model";
+import { pokemonType } from "../models/pokemon.model";
 import { pokemonResult } from "../models/pokemonResult";
 import { pokemonRoot } from "../models/pokemonRoot.model";
+
 
 interface CustomRequestConfig extends AxiosRequestConfig {
     method?: 'get' | 'post' | 'put' |'delete';
 }
-
 
 
 const useFetch = () => {
@@ -14,7 +15,7 @@ const useFetch = () => {
     const getData = async (config: CustomRequestConfig) => {
         try {
           const response = await axios(config);
-          const data:Pokemon[] | Pokemon | pokemonResult | pokemonRoot= response.data;
+          const data:Pokemon[] | Pokemon | pokemonResult | pokemonRoot | pokemonType[] = response.data;
           return data;
         } catch(error) {
           console.error('error al realiar la petición');
